@@ -13,12 +13,17 @@ window.title('Group-C1 - Game Fish')
 window.attributes('-fullscreen', True)
 canvas = tk.Canvas(window)
 
-
 game_start = tk.PhotoImage(file='images/bg/background.png')
 bg_start = tk.PhotoImage(file='images/bg/bg.png')
 game_win = tk.PhotoImage(file='images/bg/game_win.png')
 game_over = tk.PhotoImage(file='images/bg/game_over.png')
+bg_level = tk.PhotoImage(file= 'images/bg/bg_level.png')
 
+game_level = tk.PhotoImage(file ='images/menus/level.png')
+level_up = tk.PhotoImage(file= 'images/menus/level_up.png')
+level1= tk.PhotoImage(file='images/menus/level1.png')
+level2= tk.PhotoImage(file='images/menus/level2.png')
+level3= tk.PhotoImage(file='images/menus/level3.png')
 
 actor = tk.PhotoImage(file='images/player1.png')
 actor1 = tk.PhotoImage(file='images/player2.png')
@@ -27,6 +32,7 @@ enemy2 = tk.PhotoImage(file='images/enemies/enemy2.png')
 enemy6 = tk.PhotoImage(file='images/enemies/enemy6.png')
 small_fish = tk.PhotoImage(file='images/enemies/small_fish.png')
 right1 = tk.PhotoImage(file='images/enemies/right1.png')
+
 bubble1 = tk.PhotoImage(file='images/bubble1.png')
 bubble2 = tk.PhotoImage(file='images/bubble2.png')
 bubble3 = tk.PhotoImage(file='images/bubble3.png')
@@ -40,11 +46,9 @@ heard2 = tk.PhotoImage(file='images/heard2.png')
 
 menu = tk.PhotoImage(file='images/menus/menus 1.png')
 btn_start = tk.PhotoImage(file='images/menus/start_menu.png')
-btn_continue = tk.PhotoImage(file='images/menus/continue_menu.png')
+btn_continue = tk.PhotoImage(file='images/menus/level.png')
 btn_exit = tk.PhotoImage(file='images/menus/exit_menu.png')
 btn_back = tk.PhotoImage(file='images/menus/back_menu.png')
-
-
 
 player_x =700
 player_y = 450
@@ -60,7 +64,7 @@ numberOfDiamond =0
 life=6
 isStart = True
 
-# -------------function game------------
+# ---------------function game-------------
 # -----------------------------------------
 
 #--------------Process game------------------
@@ -70,6 +74,16 @@ def processGame():
     if life==0:
         gameOver()
     canvas.after(100,processGame)
+#==================>SHOW LEVEL GAME<=====================
+
+#---------LEVEL----------
+def levelGame(event):
+    canvas.delete('all')
+    canvas.create_image(680,372, image=bg_level)
+    canvas.create_image(650,150, image=level_up)
+    canvas.create_image(250,400, image=level1, tags='level1')
+    canvas.create_image(670,400, image=level2, tags='level2')
+    canvas.create_image(1100,400, image=level3, tags ='level3')
 
 #--------------game show--------------
 def gameShow(event):
@@ -78,7 +92,7 @@ def gameShow(event):
     canvas.create_image(680,372, image= bg_start)
     canvas.create_image(680, 100, image=menu, tags= 'menu')
     canvas.create_image(680,280, image=btn_start, tags="startgame")
-    canvas.create_image(680,410,image=btn_continue, tags="continue")
+    canvas.create_image(680,410,image=btn_continue, tags="level")
     canvas.create_image(680,540,image=btn_exit, tags="exit")
     
 def gameStart(event):
@@ -357,7 +371,7 @@ def movePlayerRight(event):
 canvas.create_image(680, 372, image=bg_start)
 canvas.create_image(680, 150, image=menu)
 canvas.create_image(680,330, image=btn_start, tags="startgame")
-canvas.create_image(680,460,image=btn_continue, tags="continue")
+canvas.create_image(680,460,image=btn_continue, tags="level")
 canvas.create_image(680,590,image=btn_exit, tags="exit")
 #--------put sound ----------
 winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
@@ -373,6 +387,7 @@ canvas.tag_bind("replay","<Button-1>", gameContinue)
 canvas.tag_bind("back","<Button-1>", gameShow)
 canvas.tag_bind("exit","<Button-1>", gameExit)
 canvas.tag_bind("back","<Button-1>", gameShow)
+canvas.tag_bind("level","<Button-1>", levelGame)
 
 # ---------------------------------------------------------------------------
 #=> MAIN ROOT
