@@ -61,24 +61,16 @@ numberOfDiamond =0
 life=6
 isStart = True
 
-<<<<<<< HEAD
 # =================>function game<=======================
 
 #--------------Process game----------------
-=======
-#----------------------Process game function---------------------
->>>>>>> ac72facc7e76476f809111531f09092a72138a7d
 def processGame():
     if numberOfDiamond==3 and life !=0:
         gameWin()
     if life==0:
         gameOver()
     canvas.after(100,processGame)
-<<<<<<< HEAD
 
-#==================>SHOW LEVEL GAME<=====================
-=======
->>>>>>> ac72facc7e76476f809111531f09092a72138a7d
 
 #===============================================>SHOW LEVEL GAME<==============================================
 #-----------------------------LEVEL function--------------------
@@ -90,7 +82,6 @@ def levelGame(event):
     canvas.create_image(670,400, image=level2, tags='level2')
     canvas.create_image(1100,400, image=level3, tags ='level3')
 
-<<<<<<< HEAD
 #-----------level1------------
 
 def levelOne(event):
@@ -182,9 +173,6 @@ def levelThree(event):
 
 
 #--------------game show--------------
-=======
-#--------------------------------------- game show function ------------------------
->>>>>>> ac72facc7e76476f809111531f09092a72138a7d
 def gameShow(event):
     canvas.delete('all')
     canvas.create_image(680,372, image= bg_start)
@@ -192,14 +180,8 @@ def gameShow(event):
     canvas.create_image(680,280, image=btn_play, tags="playgame")
     canvas.create_image(680,410,image=btn_restart, tags="restart")
     canvas.create_image(680,540,image=btn_exit, tags="exit")
-<<<<<<< HEAD
     
 def reStart(event):
-=======
-
-#------------------------------------------gamestart function -------------------------------------
-def gameStart(event):
->>>>>>> ac72facc7e76476f809111531f09092a72138a7d
     global player, NumberDiamond, TotalCoin
     canvas.delete('all')
     canvas.create_image(680, 372,  image=game_start)
@@ -418,7 +400,6 @@ def delete_item():
         totalScore+=1
         canvas.itemconfigure(TotalCoin, Text =totalScore)
 
-<<<<<<< HEAD
 #======================>TOUCH ENEMY<========================
 
 # def touchEnemy():
@@ -443,9 +424,6 @@ def delete_item():
 
         
 #----------- Game Win ----------------
-=======
-#--------------------------------- Game Win function ( the Sound )----------------------------------------
->>>>>>> ac72facc7e76476f809111531f09092a72138a7d
 def gameWin():
     global isStart
     isStart = False
@@ -470,16 +448,7 @@ def gameOver():
     winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 
-<<<<<<< HEAD
 #------------ Game Exit--------------
-=======
-def gameContinue(event):
-    canvas.delete("all")
-    canvas.create_image(680, 372, image=btn_continue)
-    canvas.create_image(140, 200, image=btn_back, tags="back")
-
-#--------------------------------- Game Exit function----------------------------------
->>>>>>> ac72facc7e76476f809111531f09092a72138a7d
 def gameExit(event):
     window.destroy()
 
