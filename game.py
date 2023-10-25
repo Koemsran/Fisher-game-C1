@@ -45,17 +45,13 @@ heard1 = tk.PhotoImage(file='images/heard1.png')
 heard2 = tk.PhotoImage(file='images/heard2.png')
 
 menu = tk.PhotoImage(file='images/menus/menus 1.png')
-btn_start = tk.PhotoImage(file='images/menus/start_menu.png')
-btn_continue = tk.PhotoImage(file='images/menus/level.png')
+btn_play = tk.PhotoImage(file='images/menus/play.png')
+btn_restart = tk.PhotoImage(file='images/menus/restart.png')
 btn_exit = tk.PhotoImage(file='images/menus/exit_menu.png')
 btn_back = tk.PhotoImage(file='images/menus/back_menu.png')
 
 player_x =700
 player_y = 450
-enemyX= 1400
-listOfDiamond=[]
-listOfCoin=[]
-listOfEnemy=[]
 listOfLife=[]
 totalScore = 0
 totalDiamond = 0
@@ -64,16 +60,16 @@ numberOfDiamond =0
 life=6
 isStart = True
 
-# ---------------function game-------------
-# -----------------------------------------
+# =================>function game<=======================
 
-#--------------Process game------------------
+#--------------Process game----------------
 def processGame():
     if numberOfDiamond==3 and life !=0:
         gameWin()
     if life==0:
         gameOver()
     canvas.after(100,processGame)
+
 #==================>SHOW LEVEL GAME<=====================
 
 #---------LEVEL----------
@@ -85,21 +81,111 @@ def levelGame(event):
     canvas.create_image(670,400, image=level2, tags='level2')
     canvas.create_image(1100,400, image=level3, tags ='level3')
 
+#-----------level1------------
+
+def levelOne(event):
+    global player, NumberDiamond, TotalCoin
+    canvas.delete('all')
+    canvas.create_image(680, 372,  image=game_start)
+    player = canvas.create_image(player_x, player_y, image=actor)
+    Numberdiamond = canvas.create_text(560, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
+    TotalCoin = canvas.create_text(760, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
+
+    canvas.create_image(100,70, image = btn_back, tags= 'back')
+    winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+
+    canvas.create_image(520, 65, image = diamond1)
+    id=canvas.create_image(720, 65, image = coin2)
+    for i in range(5):
+        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
+        listOfLife.append(life_actor)
+
+# ===================CALL FUNCTION HERE<=================
+    createEnemy()
+    createDiamond()
+    small_fishes()
+    move_buuble()
+    createCion()
+    pickUpDiamond()
+    delete_item()
+
+
+#-------------------level 2--------------------
+def levelTwo(event):
+    global player, NumberDiamond, TotalCoin
+    canvas.delete('all')
+    canvas.create_image(680, 372,  image=game_start)
+    player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
+    Numberdiamond = canvas.create_text(560, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
+    TotalCoin = canvas.create_text(760, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
+
+    canvas.create_image(100,70, image = btn_back, tags= 'back')
+    winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+
+    canvas.create_image(520, 65, image = diamond1)
+    canvas.create_image(720, 65, image = coin2)
+    
+    for i in range(5):
+        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
+        listOfLife.append(life_actor)
+        
+# ===================CALL FUNCTION HERE<=================
+    createEnemy()
+    createDiamond()
+    small_fishes()
+    move_buuble()
+    createCion()
+    pickUpDiamond()
+    delete_item()
+
+
+
+
+#-------------------level 3 ------------------
+def levelThree(event):
+    global player, NumberDiamond, TotalCoin
+    canvas.delete('all')
+    canvas.create_image(680, 372,  image=game_start)
+    player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
+    Numberdiamond = canvas.create_text(560, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
+    TotalCoin = canvas.create_text(760, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
+
+    canvas.create_image(100,70, image = btn_back, tags= 'back')
+    winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+
+    canvas.create_image(520, 65, image = diamond1)
+    canvas.create_image(720, 65, image = coin2)
+
+    for i in range(5):
+        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
+        listOfLife.append(life_actor)
+        
+# ===================CALL FUNCTION HERE<=================
+    createEnemy()
+    createDiamond()
+    small_fishes()
+    move_buuble()
+    createCion()
+    pickUpDiamond()
+    delete_item()
+
+
+
 #--------------game show--------------
 def gameShow(event):
     
     canvas.delete('all')
     canvas.create_image(680,372, image= bg_start)
     canvas.create_image(680, 100, image=menu, tags= 'menu')
-    canvas.create_image(680,280, image=btn_start, tags="startgame")
-    canvas.create_image(680,410,image=btn_continue, tags="level")
+    canvas.create_image(680,280, image=btn_play, tags="playgame")
+    canvas.create_image(680,410,image=btn_restart, tags="restart")
     canvas.create_image(680,540,image=btn_exit, tags="exit")
     
-def gameStart(event):
+def reStart(event):
     global player, NumberDiamond, TotalCoin
     canvas.delete('all')
     canvas.create_image(680, 372,  image=game_start)
-    player = canvas.create_image(player_x, player_y, image=actor)
+    player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
     Numberdiamond = canvas.create_text(560, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
     TotalCoin = canvas.create_text(760, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
 
@@ -272,8 +358,11 @@ def move_buuble():
 #======================>PICK UP DIAMOND<========================
 
 def pickUpDiamond():
+    global player
     coord= canvas.coords(player)
+    print(coord[0])
     foods = canvas.find_withtag('DM')
+    print(foods)
     overlap = canvas.find_overlapping(coord[0], coord[1], coord[0]+actor.width(), coord[1]+actor.height())
     print(overlap)
     for food in foods:
@@ -285,11 +374,54 @@ def delete_item():
     shape = pickUpDiamond()
     if shape>0:
         canvas.delete(shape)
-        canvas.itemconfigure(TotalCoin, Text =totalScore)
         totalScore+=1
+        canvas.itemconfigure(TotalCoin, Text =totalScore)
+        
+#======================>PICK UP COIN<========================
 
+def pickUpCoin():
+    global player
+    coord= canvas.coords(player)
+    print(coord[0])
+    foods = canvas.find_withtag('COIN')
+    print(foods)
+    overlap = canvas.find_overlapping(coord[0], coord[1], coord[0]+actor.width(), coord[1]+actor.height())
+    print(overlap)
+    for food in foods:
+        if food in overlap:
+            return food
+    return 0
 
+def delete_item():
+    shape = pickUpCoin()
+    if shape>0:
+        canvas.delete(shape)
+        totalScore+=1
+        canvas.itemconfigure(TotalCoin, Text =totalScore)
 
+#======================>TOUCH ENEMY<========================
+
+# def touchEnemy():
+#     global player
+#     coord= canvas.coords(player)
+#     print(coord[0])
+#     foods = canvas.find_withtag('FISH')
+#     print(foods)
+#     overlap = canvas.find_overlapping(coord[0], coord[1], coord[0]+actor.width(), coord[1]+actor.height())
+#     print(overlap)
+#     for food in foods:
+#         if food in overlap:
+#             return food
+#     return 0
+
+# def delete_item():
+#     global life
+#     shape = touchEnemy()
+#     if shape>0:
+#         life-=1
+#         canvas.itemconfigure
+
+        
 #----------- Game Win ----------------
 def gameWin():
     global isStart
@@ -298,7 +430,7 @@ def gameWin():
     canvas.create_image(680,372, image=game_win)
     canvas.create_text(1200, 143, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
     canvas.create_text(1200, 218, text=totalDiamond, font=("serif", 34 ,'bold'), fill="black")
-    canvas.create_image(680,420, image=btn_continue, tags="continue")
+    canvas.create_image(680,420, image=btn_restart, tags="continue")
     canvas.create_image(680,550,image=btn_exit, tags="exit")
     winsound.PlaySound("sounds/winner.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
@@ -313,11 +445,6 @@ def gameOver():
     canvas.create_image(680,570,image=btn_exit, tags="exit")
     winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
-
-def gameContinue(event):
-    canvas.delete("all")
-    canvas.create_image(680, 372, image=btn_continue)
-    canvas.create_image(140, 200, image=btn_back, tags="back")
 
 #------------ Game Exit--------------
 def gameExit(event):
@@ -341,7 +468,7 @@ def gameRestart(event):
     countCreateEnemy=0
     createEnemysSize = 0
     isStart = True
-    gameStart(event)
+    reStart(event)
 
 #-----------Player Up-------------
 def movePlayerUp(event):
@@ -369,8 +496,8 @@ def movePlayerRight(event):
 
 canvas.create_image(680, 372, image=bg_start)
 canvas.create_image(680, 150, image=menu)
-canvas.create_image(680,330, image=btn_start, tags="startgame")
-canvas.create_image(680,460,image=btn_continue, tags="level")
+canvas.create_image(680,330, image=btn_play, tags="playgame")
+canvas.create_image(680,460,image=btn_restart, tags="restart")
 canvas.create_image(680,590,image=btn_exit, tags="exit")
 #--------put sound ----------
 winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
@@ -381,22 +508,15 @@ window.bind("<Up>", movePlayerUp)
 window.bind("<Down>", movePlayerDown)
 window.bind("<Left>", movePlayerleft)
 window.bind("<Right>", movePlayerRight)
-canvas.tag_bind("startgame","<Button-1>", gameStart)
-canvas.tag_bind("replay","<Button-1>", gameContinue)
 canvas.tag_bind("back","<Button-1>", gameShow)
 canvas.tag_bind("exit","<Button-1>", gameExit)
-canvas.tag_bind("back","<Button-1>", gameShow)
-canvas.tag_bind("level","<Button-1>", levelGame)
-
+canvas.tag_bind("playgame","<Button-1>", levelGame)
+canvas.tag_bind("level1","<Button-1>", levelOne)
+canvas.tag_bind("level2","<Button-1>", levelTwo)
+canvas.tag_bind("level3","<Button-1>", levelThree)
+canvas.tag_bind("restart","<Button-1>", reStart)
 # ---------------------------------------------------------------------------
-#=> MAIN ROOT
+#=> MAIN WINDOW
 # ---------------------------------------------------------------------------
 canvas.pack(expand=True, fill='both')
-# def scroll_right():
-#     canvas.xview('scroll', 1, 'units')
-
-# def auto_scroll():
-#     scroll_right()
-#     window.after(100, auto_scroll)
-# auto_scroll()
 window.mainloop()
