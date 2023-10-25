@@ -290,6 +290,7 @@ def gameWin():
 
 
 #--------------- Game over ---------------
+
 def gameOver():
     global isStart
     isStart = False
