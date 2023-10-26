@@ -115,7 +115,7 @@ def levelOne(event):
 
 #-------------------LEVEL2--------------------
 def levelTwo(event):
-    totalScore = 0
+    numberOfDiamond=0
     global player, NumberDiamond, TotalCoin
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
@@ -138,9 +138,9 @@ def levelTwo(event):
     anemyLevelTwo()
 
 #-------------------LEVEL3------------------
-totalScore = 0
+
 def levelThree(event):
-    
+    numberOfDiamond=0
     global player, NumberDiamond, TotalCoin, totalScore
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
@@ -183,7 +183,7 @@ def reStart(event):
     Level1 = canvas.create_text(410, 70, text="Level: 1", font=("serif", 20 ,'bold'), fill="black")
     NumberDiamond = canvas.create_text(660, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
     TotalCoin = canvas.create_text(860, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
-
+    canvas.tag_bind("go","<Button-1>", levelTwo)
     canvas.create_image(100,70, image = btn_back, tags= 'back')
     winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
