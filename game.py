@@ -4,7 +4,7 @@ import winsound
 from random import randrange
 import time
 
-#CREATE WIDTH AND HEIGHT ON WINDOW
+# CREATE WIDTH AND HEIGHT ON WINDOW
 SCREEN_WIDTH = 1400
 SCREEN_HEIGHT = 740
 
@@ -12,7 +12,7 @@ SCREEN_HEIGHT = 740
 window = tk.Tk()
 window.geometry(str(SCREEN_WIDTH)+"x"+str(SCREEN_HEIGHT))
 
-# THE TITTLE NAME OF GAME FISH
+# THE TITTLE NAME OF GAME 
 window.title('Group-C1 - Game Fish')
 window.attributes('-fullscreen', True)
 canvas = tk.Canvas(window)
@@ -38,7 +38,7 @@ level3= tk.PhotoImage(file='images/menus/level3.png')
 actor = tk.PhotoImage(file='images/player1.png')
 actor1 = tk.PhotoImage(file='images/player2.png')
 
-#IMAGE DISPLAY FISH
+# IMAGE DISPLAY FISH
 enemy1 = tk.PhotoImage(file='images/enemies/enemy1.png')
 enemy2 = tk.PhotoImage(file='images/enemies/enemy2.png')
 enemy6 = tk.PhotoImage(file='images/enemies/enemy6.png')
@@ -50,7 +50,7 @@ bubble1 = tk.PhotoImage(file='images/bubble1.png')
 bubble2 = tk.PhotoImage(file='images/bubble2.png')
 bubble3 = tk.PhotoImage(file='images/bubble3.png')
 
-#CREATE IMAGE COIN LEVEL1 AND 2
+# CREATE IMAGE COIN LEVEL1 AND 2
 coin1 = tk.PhotoImage(file='images/coin1.png')
 coin2 = tk.PhotoImage(file='images/coin2.png')
 
@@ -67,6 +67,7 @@ btn_restart = tk.PhotoImage(file='images/menus/restart.png')
 btn_exit = tk.PhotoImage(file='images/menus/exit_menu.png')
 btn_back = tk.PhotoImage(file='images/menus/back_menu.png')
 
+# CREATE NAMES
 player_x =700
 player_y = 450
 listOfLife = []
@@ -78,6 +79,7 @@ life = 6
 isStart = True
 
 # ---------------FUNCTION GAME-------------
+
 #--------------PROCESS GAME------------------
 def processGame():
     if numberOfDiamond == 3 and life != 0:
@@ -111,6 +113,8 @@ def levelOne(event):
     TotalCoin = canvas.create_text(760, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
 
     canvas.create_image(100,70, image = btn_back, tags= 'back')
+
+    # DISPLAY SOUND IN TO GAME
     winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     canvas.create_image(520, 65, image = diamond1)
@@ -161,8 +165,7 @@ def levelTwo(event):
     anemyLevelTwo()
 
 
-
-#-------------------level 3 ------------------
+#-------------------LEVEL3------------------
 def levelThree(event):
     global player, NumberDiamond, TotalCoin
     canvas.delete('all')
@@ -202,7 +205,8 @@ def gameShow(event):
     canvas.create_image(680,410,image=btn_restart, tags="restart")
     canvas.create_image(680,540,image=btn_exit, tags="exit")
     winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
-    
+
+#---------------GAME RESTART--------------   
 def reStart(event):
     global player, NumberDiamond, TotalCoin
     canvas.delete('all')
@@ -230,7 +234,7 @@ def reStart(event):
     pickUpDiamond()
     delete_item()
 
-#-----------CREATE ENEMY DISPLAY ON BACKGROUND--------------
+#-----------CREATE FUNCTION TO UPDATE THE OBJECT ENEMY DISPLAY ON BACKGROUND--------------
 def createEnemy():
     enemies1= canvas.create_image(900,150, image = enemy1, tags ='FISH')
     enemies2= canvas.create_image(900,400, image = enemy1, tags ='FISH')
@@ -275,7 +279,7 @@ def createEnemy():
     window.after(20, update_position_right)
 
 
-#--------------------------------------SMALL FISH fish speed small function​ ----------------------------------
+#--------------------------------------FUNCTION SPEED OF SMALL FISH----------------------------------
 
 def small_fishes():
     x3 = 100
@@ -328,8 +332,8 @@ def createDiamond():
     window.after(20, update_position_right)
 
 
-#-----------CREATE ICONS FOR CHECK CONDITION--------------
-# FUNCTION TO CREATE THE OBJECT CIONS-------------------------------
+#------------------CREATE ICONS FOR CHECK CONDITION-----------------------
+# FUNCTION TO CREATE THE OBJECT CIONS
 def createCion():
     x = 100
     y = 200
@@ -355,8 +359,8 @@ def createCion():
         
     window.after(20, update_position_left)
 
-# -----------MOVE BUBBLE------------
-# FUNCTION TO MOVE THE OBJECT BUBBLEP, DOWN )----------------------------
+# ------------------MOVE BUBBLE---------------------
+# FUNCTION TO MOVE THE OBJECT BUBBLEP
 def move_buuble():
     x = 100
     y = 900
@@ -368,7 +372,7 @@ def move_buuble():
         y += 200
     def update_position_up():
         fish_coods = canvas.coords("BUBBLE")
-        if fish_coods[1]< 300:
+        if fish_coods[1] < 300:
             canvas.move("BUBBLE", 0, 2)
             window.after(20, update_position_up)
         else:
@@ -376,7 +380,7 @@ def move_buuble():
         
     def update_position_down():
         fish_coods = canvas.coords("BUBBLE")
-        if fish_coods[1]> 100 :
+        if fish_coods[1] > 100 :
             canvas.move("BUBBLE", 0, -2)
             window.after(20, update_position_down)
         else:
@@ -393,7 +397,7 @@ def anemyLevelTwo():
     def update_position_right():
         
         fish_coods = canvas.coords('ENEMY')
-        if fish_coods[0]< 2000:
+        if fish_coods[0] < 2000:
             canvas.itemconfigure(enemies1, image = enemy2)
             canvas.itemconfigure(enemies2, image = enemy2)
             canvas.itemconfigure(enemies3, image = enemy2)
@@ -405,7 +409,7 @@ def anemyLevelTwo():
 #--------------------------------------GO LEFT FUNCTION------------------------------------------      
     def update_position_left():
         fish_coods = canvas.coords('ENEMY')
-        if fish_coods[0]> -100 :
+        if fish_coods[0] > -100 :
             canvas.itemconfigure(enemies1, image = enemy1)
             canvas.itemconfigure(enemies2, image = enemy1)
             canvas.itemconfigure(enemies3, image = enemy1)
@@ -425,7 +429,7 @@ def anemyLevelThree():
     def update_position_right():
         
         fish_coods = canvas.coords('ENEMY')
-        if fish_coods[0]< 1500:
+        if fish_coods[0] < 1500:
             canvas.itemconfigure(enemies1, image = enemy2)
             canvas.itemconfigure(enemies2, image = enemy2)
             canvas.itemconfigure(enemies3, image = enemy2)
@@ -437,7 +441,7 @@ def anemyLevelThree():
 #--------------------------------------GO LEFE FUNCTION------------------------------------------      
     def update_position_left():
         fish_coods = canvas.coords('ENEMY')
-        if fish_coods[0]> -100 :
+        if fish_coods[0] > -100 :
             canvas.itemconfigure(enemies1, image = enemy1)
             canvas.itemconfigure(enemies2, image = enemy1)
             canvas.itemconfigure(enemies3, image = enemy1)
@@ -464,9 +468,9 @@ def pickUpDiamond():
 score = 0
 def delete_item():
     shape = pickUpDiamond()
-    if shape>0:
+    if shape > 0:
         canvas.delete(shape)
-        score+=1
+        score += 1
         canvas.itemconfigure(totalDiamond, Text =': '+str(score))
         
 #======================>PICK UP COIN<========================
@@ -514,7 +518,7 @@ def delete_item():
 #         canvas.itemconfigure
 
         
-#----------- GMAE WIN ----------------
+#------------------------------------ GMAE WIN FUNCTION--------------------------------------------
 def gameWin():
     global isStart
     isStart = False
@@ -538,11 +542,11 @@ def gameOver():
     winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 
-#------------ GAME EXIT--------------
+#------------ ----------------------GAME EXIT-------------------------------------
 def gameExit(event):
     window.destroy()
 
-#-----------------------------------------GAME RESTART FUNCTION-------------------------
+#-----------------------------------------GAME RESTART FUNCTION---------------------------------
 def gameRestart(event):
     global player_x, player_y,totalScore, totalDiamond, getCoin
     isStart = False
@@ -593,6 +597,7 @@ canvas.create_image(680,460,image=btn_restart, tags="restart")
 canvas.create_image(680,590,image=btn_exit, tags="exit")
 winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
+# Start the simulation
 processGame()
 
 window.bind("<Up>", movePlayerUp)
