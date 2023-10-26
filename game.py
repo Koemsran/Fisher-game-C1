@@ -76,11 +76,13 @@ def processGame():
 #-----------------------------LEVEL function--------------------
 def levelGame(event):
     canvas.delete('all')
+    
     canvas.create_image(680,372, image=bg_level)
     canvas.create_image(650,150, image=level_up)
     canvas.create_image(250,400, image=level1, tags='level1')
     canvas.create_image(670,400, image=level2, tags='level2')
     canvas.create_image(1100,400, image=level3, tags ='level3')
+    canvas.create_image(100,70, image = btn_back, tags= 'back')
 
 #-----------level1------------
 
@@ -89,6 +91,7 @@ def levelOne(event):
     canvas.delete('all')
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor)
+    Level1 = canvas.create_text(400, 70, text="Level: 1", font=("serif", 20 ,'bold'), fill="black")
     Numberdiamond = canvas.create_text(560, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
     TotalCoin = canvas.create_text(760, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
 
@@ -104,7 +107,6 @@ def levelOne(event):
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
     createDiamond()
-    small_fishes()
     move_buuble()
     createCion()
     pickUpDiamond()
@@ -133,12 +135,12 @@ def levelTwo(event):
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
     createDiamond()
-    small_fishes()
+    # small_fishes()
     move_buuble()
     createCion()
     pickUpDiamond()
     delete_item()
-
+    anemyLevelTwo()
 
 
 
@@ -164,11 +166,11 @@ def levelThree(event):
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
     createDiamond()
-    small_fishes()
     move_buuble()
     createCion()
     pickUpDiamond()
     delete_item()
+    anemyLevelThree()
 
 
 
@@ -180,6 +182,7 @@ def gameShow(event):
     canvas.create_image(680,280, image=btn_play, tags="playgame")
     canvas.create_image(680,410,image=btn_restart, tags="restart")
     canvas.create_image(680,540,image=btn_exit, tags="exit")
+    winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     
 def reStart(event):
     global player, NumberDiamond, TotalCoin
@@ -202,7 +205,6 @@ def reStart(event):
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
     createDiamond()
-    small_fishes()
     move_buuble()
     createCion()
     pickUpDiamond()
@@ -327,7 +329,7 @@ def createCion():
         
     window.after(20, update_position_left)
 
-# -------------------------move bubble function  and  update osition( UP, DOW )----------------------------
+# -------------------------move bubble function  and  update osition( UP, DOWN )----------------------------
 def move_buuble():
     x=100
     y=900
@@ -355,13 +357,75 @@ def move_buuble():
         
     window.after(20, update_position_up)
 
+#------------ENEMY LEVEL 2-------------------
+def anemyLevelTwo():
+    enemies1=canvas.create_image(100,100, image = enemy1, tags= 'ENEMY')
+    enemies2=canvas.create_image(100,400, image = enemy1, tags= 'ENEMY')
+    enemies3=canvas.create_image(100,700, image = enemy1, tags= 'ENEMY')
 
-#======================>PICK UP DIAMOND function<========================
+    def update_position_right():
+        
+        fish_coods = canvas.coords('ENEMY')
+        if fish_coods[0]< 2000:
+            canvas.itemconfigure(enemies1, image = enemy2)
+            canvas.itemconfigure(enemies2, image = enemy2)
+            canvas.itemconfigure(enemies3, image = enemy2)
+            canvas.move('ENEMY', 2, 0)
+            window.after(20, update_position_right)
+        else:
+            update_position_left()
+
+#--------------------------------------go left function------------------------------------------      
+    def update_position_left():
+        fish_coods = canvas.coords('ENEMY')
+        if fish_coods[0]> -100 :
+            canvas.itemconfigure(enemies1, image = enemy1)
+            canvas.itemconfigure(enemies2, image = enemy1)
+            canvas.itemconfigure(enemies3, image = enemy1)
+            canvas.move('ENEMY', -2, 0)
+            window.after(20, update_position_left)
+        else:
+            update_position_right()
+        
+    window.after(20, update_position_left)
+
+#------------ENEMY LEVEL 3-------------------
+def anemyLevelThree():
+    enemies1=canvas.create_image(100,100, image = enemy1, tags= 'ENEMY')
+    enemies2=canvas.create_image(100,400, image = enemy1, tags= 'ENEMY')
+    enemies3=canvas.create_image(100,700, image = enemy1, tags= 'ENEMY')
+
+    def update_position_right():
+        
+        fish_coods = canvas.coords('ENEMY')
+        if fish_coods[0]< 1500:
+            canvas.itemconfigure(enemies1, image = enemy2)
+            canvas.itemconfigure(enemies2, image = enemy2)
+            canvas.itemconfigure(enemies3, image = enemy2)
+            canvas.move('ENEMY', 7, 0)
+            window.after(20, update_position_right)
+        else:
+            update_position_left()
+
+#--------------------------------------go left function------------------------------------------      
+    def update_position_left():
+        fish_coods = canvas.coords('ENEMY')
+        if fish_coods[0]> -100 :
+            canvas.itemconfigure(enemies1, image = enemy1)
+            canvas.itemconfigure(enemies2, image = enemy1)
+            canvas.itemconfigure(enemies3, image = enemy1)
+            canvas.move('ENEMY', -7, 0)
+            window.after(20, update_position_left)
+        else:
+            update_position_right()
+        
+    window.after(20, update_position_left)
+
+#======================>PICK UP DIAMOND FUNCTION<========================
 
 def pickUpDiamond():
     global player
     coord= canvas.coords(player)
-    print(coord[0])
     foods = canvas.find_withtag('DM')
     print(foods)
     overlap = canvas.find_overlapping(coord[0], coord[1], coord[0]+actor.width(), coord[1]+actor.height())
@@ -370,35 +434,35 @@ def pickUpDiamond():
         if food in overlap:
             return food
     return 0
-
+score = 0
 def delete_item():
     shape = pickUpDiamond()
     if shape>0:
         canvas.delete(shape)
-        totalScore+=1
-        canvas.itemconfigure(TotalCoin, Text =totalScore)
+        score+=1
+        canvas.itemconfigure(totalDiamond, Text =': '+str(score))
         
 #======================>PICK UP COIN<========================
 
-def pickUpCoin():
-    global player
-    coord= canvas.coords(player)
-    print(coord[0])
-    foods = canvas.find_withtag('COIN')
-    print(foods)
-    overlap = canvas.find_overlapping(coord[0], coord[1], coord[0]+actor.width(), coord[1]+actor.height())
-    print(overlap)
-    for food in foods:
-        if food in overlap:
-            return food
-    return 0
-
-def delete_item():
-    shape = pickUpCoin()
-    if shape>0:
-        canvas.delete(shape)
-        totalScore+=1
-        canvas.itemconfigure(TotalCoin, Text =totalScore)
+# def pickUpCoin():
+#     global player
+#     coord= canvas.coords(player)
+#     print(coord[0])
+#     foods = canvas.find_withtag('COIN')
+#     print(foods)
+#     overlap = canvas.find_overlapping(coord[0], coord[1], coord[0]+actor.width(), coord[1]+actor.height())
+#     print(overlap)
+#     for food in foods:
+#         if food in overlap:
+#             return food
+#     return 0
+# scoreCion
+# def delete_item():
+#     shape = pickUpCoin()
+#     if shape>0:
+#         canvas.delete(shape)
+#         scoreCoin+=1
+#         canvas.itemconfigure(TotalCoin, Text =Text =': '+str(scoreCion))
 
 #======================>TOUCH ENEMY<========================
 
@@ -444,7 +508,6 @@ def gameOver():
     canvas.create_text(1200, 143, text=getCoin, font=("serif", 34 ,'bold'), fill="black")
     canvas.create_text(1200, 218, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
     canvas.create_image(680,570,image=btn_exit, tags="exit")
-#--------sound backgroud----------
     winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 
@@ -501,7 +564,6 @@ canvas.create_image(680, 150, image=menu)
 canvas.create_image(680,330, image=btn_play, tags="playgame")
 canvas.create_image(680,460,image=btn_restart, tags="restart")
 canvas.create_image(680,590,image=btn_exit, tags="exit")
-#--------sound backgroud----------
 winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 processGame()
