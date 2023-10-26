@@ -110,7 +110,7 @@ def levelOne(event):
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor)
     Level1 = canvas.create_text(410, 70, text="Level: 1", font=("serif", 20 ,'bold'), fill="black")
-    Numberdiamond = canvas.create_text(660, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
+    NumberDiamond = canvas.create_text(660, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
     TotalCoin = canvas.create_text(860, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
 
     canvas.create_image(100,70, image = btn_back, tags= 'back')
@@ -222,8 +222,8 @@ def reStart(event):
     canvas.create_image(820, 65, image = coin2)
 
     for i in range(5):
-        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
-        listOfLife.append(life_actor)
+        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1, tags = 'LIFE')
+        # listOfLife.append(life_actor)
 
 # ===================CALL FUNCTION HERE<=================
 #---START THE SIMULATION----
@@ -274,7 +274,6 @@ def createEnemy():
             window.after(20, update_position_left)
         else:
             update_position_right()
-        
     window.after(20, update_position_right)
 
 
@@ -310,7 +309,7 @@ def createCion():
     for i in range(1,10):
         COIN1= canvas.create_image(x,y, image = coin1, tags= 'COIN')
         COIN1= canvas.create_image(x+200,y+400, image = coin2, tags= 'COIN')
-        x+=25
+        x+=40
     def update_position_right():
         fish_coods = canvas.coords('COIN')
         if fish_coods[0]< 1500:
@@ -453,35 +452,35 @@ def pickUpDiamond():
             return True
 
 def deleteCoin(plf):
+    winsound.PlaySound("sounds/pick_coin.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     global getCoin
     canvas.delete(plf)
     getCoin+=1
     canvas.itemconfigure(TotalCoin, text = ': ' + str(getCoin) )
-    winsound.PlaySound("sounds/pick_coin.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+    
     
 def deleteDiamnd(dm):
+    winsound.PlaySound("sounds/pick_diamond.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     canvas.delete(dm)
     global numberOfDiamond
     numberOfDiamond+=1
     canvas.itemconfigure(NumberDiamond, text = ': ' + str(numberOfDiamond) )
-    winsound.PlaySound("sounds/pick_diamond.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+    
 
 def playerDied1(died):
     global life, life_actor
     life-=1
-    print(life)
-    # canvas.itemconfigure(life_actor, image = heard2)
+    canvas.itemconfigure("LIFE", image = heard2 )
 
 def playerDied2(died):
     global life, life_actor
     life-=1
-    print(life)
-    # canvas.itemconfigure(life_actor, image = heard2)
+
 
      
 #----------- Game Win ----------------
 def gameWin():
-    canvas.delete('all')
+    # canvas.delete('all')
     canvas.create_image(680,372, image=game_win)
     canvas.create_text(1200, 143, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
     canvas.create_text(1200, 218, text=totalDiamond, font=("serif", 34 ,'bold'), fill="black")
@@ -489,15 +488,19 @@ def gameWin():
     canvas.create_image(780,565,image=btn_go, tags="go")
     winsound.PlaySound("sounds/winner.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
-
 #--------------------------------- GAME OVER FUNCTION ---------------------------------------------
 def gameOver():
+    lose()
+    # canvas.delete('all')
+    canvas.create_text(1130, 243, text=getCoin, font=("serif", 34 ,'bold'), fill="black")
+    canvas.create_text(1130, 343, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
+    winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+
+def lose():
     canvas.delete('all')
     canvas.create_image(680, 372, image=game_over)
-    canvas.create_text(1200, 143, text=getCoin, font=("serif", 34 ,'bold'), fill="black")
-    canvas.create_text(1200, 218, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
-    canvas.create_image(680,570,image=btn_exit, tags="exit")
-    winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+    canvas.create_image(100,70, image = btn_back, tags= 'back')
+    canvas.tag_bind("back","<Button-1>", gameShow)
 
 
 #------------ ----------------------GAME EXIT-------------------------------------
@@ -532,7 +535,6 @@ def movePlayerUp(event):
         canvas.moveto(player, player_x-80, player_y-70)
     pickUpDiamond()
         
-
 #---------------------------PLAYER DOWN FUNCTION--------------------------------------------
 def movePlayerDown(event):
     global player_y
@@ -568,7 +570,7 @@ window.bind("<Down>", movePlayerDown)
 window.bind("<Left>", movePlayerleft)
 window.bind("<Right>", movePlayerRight)
 canvas.tag_bind("back","<Button-1>", gameShow)
-# canvas.tag_bind("go","<Button-1>", gameShow)
+canvas.tag_bind("go","<Button-1>", levelTwo)
 canvas.tag_bind("exit","<Button-1>", gameExit)
 canvas.tag_bind("playgame","<Button-1>", levelGame)
 canvas.tag_bind("level1","<Button-1>", levelOne)
