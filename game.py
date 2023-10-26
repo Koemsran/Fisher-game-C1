@@ -566,7 +566,7 @@ def gameRestart(event):
     isStart = True
     reStart(event)
 
-#---------------------------------PLAYER UP FUNCTION ------------------------------------------
+#---------------------------------PLAYER UP FUNCTION------------------------------------------
 def movePlayerUp(event):
     global player_y
     if player_y>130:
