@@ -457,8 +457,8 @@ def deleteCoin(plf):
     canvas.delete(plf)
     getCoin+=1
     canvas.itemconfigure(TotalCoin, text = ': ' + str(getCoin) )
-    
-    
+    winsound.PlaySound("sounds/pick_coin.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+
 def deleteDiamnd(dm):
     winsound.PlaySound("sounds/pick_diamond.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     canvas.delete(dm)
