@@ -37,6 +37,7 @@ level3= tk.PhotoImage(file='images/menus/level3.png')
 # =======================>IMAGE DISPLAY PLAYERS<===========================
 actor = tk.PhotoImage(file='images/player1.png')
 actor1 = tk.PhotoImage(file='images/player2.png')
+actor_cry =tk.PhotoImage(file= 'images/cry.png')
 
 # ======================>IMAGE DISPLAY FISH<==============================
 enemy1 = tk.PhotoImage(file='images/enemies/enemy1.png')
@@ -68,16 +69,14 @@ btn_exit = tk.PhotoImage(file='images/menus/exit_menu.png')
 btn_back = tk.PhotoImage(file='images/menus/back_menu.png')
 btn_go = tk.PhotoImage(file='images/menus/go_menu.png')
 
-# =======================>CREATE NAMES<===========================
+# =======================>CREATE NAMES VARIBAL<===========================
 player_x =700
-player_y = 450
-listOfLife = []
+player_y = 500
 totalScore = 0
 totalDiamond = 0
 getCoin = 0
 numberOfDiamond = 0
-life = 6
-isStart = True
+life = 1
 
 #===============================>SHOW LEVEL GAME<==================================
 def levelGame(event):
@@ -91,21 +90,20 @@ def levelGame(event):
 #-----------LEVEL1------------
 
 def levelOne(event):
+    totalScore = 0
     global player, NumberDiamond, TotalCoin
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor)
     Level1 = canvas.create_text(410, 70, text="Level: 1", font=("serif", 20 ,'bold'), fill="black")
     NumberDiamond = canvas.create_text(660, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
     TotalCoin = canvas.create_text(860, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
-
+    canvas.tag_bind("go","<Button-1>", levelTwo)
     canvas.create_image(100,70, image = btn_back, tags= 'back')
     winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     canvas.create_image(620, 65, image = diamond1)
-    id=canvas.create_image(820, 65, image = coin2)
-    for i in range(5):
-        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
-        listOfLife.append(life_actor)
+    id=canvas.create_image(800, 65, image = coin2)
+
 
 
 # ===================CALL FUNCTION HERE<=================
@@ -117,22 +115,19 @@ def levelOne(event):
 
 #-------------------LEVEL2--------------------
 def levelTwo(event):
+    totalScore = 0
     global player, NumberDiamond, TotalCoin
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
     Level2 = canvas.create_text(410, 70, text="Level: 2", font=("serif", 20 ,'bold'), fill="black")
     NumberDiamond = canvas.create_text(660, 70, text=": "+str(totalDiamond), font=("serif", 20 ,'bold'), fill="black")
     TotalCoin = canvas.create_text(860, 70, text=': '+str(totalScore), font=("serif", 20 ,'bold'), fill="black")
-
+    canvas.tag_bind("go","<Button-1>", levelThree)
     canvas.create_image(100,70, image = btn_back, tags= 'back')
     winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
-
     canvas.create_image(620, 65, image = diamond1)
-    canvas.create_image(820, 65, image = coin2)
+    canvas.create_image(800, 65, image = coin2)
     
-    for i in range(5):
-        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
-        listOfLife.append(life_actor)
         
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
@@ -143,8 +138,10 @@ def levelTwo(event):
     anemyLevelTwo()
 
 #-------------------LEVEL3------------------
+totalScore = 0
 def levelThree(event):
-    global player, NumberDiamond, TotalCoin
+    
+    global player, NumberDiamond, TotalCoin, totalScore
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
     Level3 = canvas.create_text(410, 70, text="Level: 3", font=("serif", 20 ,'bold'), fill="black")
@@ -155,11 +152,9 @@ def levelThree(event):
     winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     canvas.create_image(620, 65, image = diamond1)
-    canvas.create_image(820, 65, image = coin2)
+    canvas.create_image(800, 65, image = coin2)
 
-    for i in range(5):
-        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1)
-        listOfLife.append(life_actor)
+
         
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
@@ -181,6 +176,7 @@ def gameShow(event):
 
 #---------------GAME RESTART--------------   
 def reStart(event):
+    totalScore = 0
     global player, NumberDiamond, TotalCoin
     canvas.create_image(680, 372,  image=game_start)
     player = canvas.create_image(player_x, player_y, image=actor, tags = 'player')
@@ -192,10 +188,8 @@ def reStart(event):
     winsound.PlaySound("sounds/playing.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     canvas.create_image(620, 65, image = diamond1)
-    canvas.create_image(820, 65, image = coin2)
+    canvas.create_image(800, 65, image = coin2)
 
-    for i in range(5):
-        life_actor = canvas.create_image(1150 + i * 37, 60, image=heard1, tags = 'LIFE')
 
 # ===================CALL FUNCTION HERE<=================
     createEnemy()
@@ -206,12 +200,12 @@ def reStart(event):
 
 #-----------CREATE FUNCTION TO UPDATE THE OBJECT ENEMY DISPLAY ON BACKGROUND--------------
 def createEnemy():
-    enemies1= canvas.create_image(900,150, image = enemy1, tags ='FISH')
-    enemies2= canvas.create_image(900,400, image = enemy1, tags ='FISH')
-    enemies3= canvas.create_image(900,650, image = enemy1, tags ='FISH')
-    enemies4= canvas.create_image(1250,300, image = enemy6, tags ='FISH')
-    enemies5= canvas.create_image(1250,570, image = enemy6, tags ='FISH')
-    enemies6= canvas.create_image(1250,790, image = enemy6, tags ='FISH')
+    enemies1= canvas.create_image(900,100, image = enemy1, tags ='FISH')
+    enemies2= canvas.create_image(900,450, image = enemy1, tags ='FISH')
+    enemies3= canvas.create_image(900,800, image = enemy1, tags ='FISH')
+    enemies4= canvas.create_image(1300,300, image = enemy6, tags ='FISH')
+    enemies5= canvas.create_image(1300,570, image = enemy6, tags ='FISH')
+    enemies6= canvas.create_image(1300,790, image = enemy6, tags ='FISH')
    
 #----------------------------GO RIGHT FUNCTION------------------------------------
     def update_position_right():
@@ -224,7 +218,7 @@ def createEnemy():
             canvas.itemconfigure(enemies4, image = right1)
             canvas.itemconfigure(enemies5, image = right1)
             canvas.itemconfigure(enemies6, image = right1)
-            canvas.move('FISH', 3, 0)
+            canvas.move('FISH', 5, 0)
             window.after(20, update_position_right)
         else:
             update_position_left()
@@ -240,7 +234,7 @@ def createEnemy():
             canvas.itemconfigure(enemies4, image = enemy6)
             canvas.itemconfigure(enemies5, image = enemy6)
             canvas.itemconfigure(enemies6, image = enemy6)
-            canvas.move('FISH', -4, 0)
+            canvas.move('FISH', -5, 0)
             window.after(20, update_position_left)
         else:
             update_position_right()
@@ -255,7 +249,7 @@ def createDiamond():
         fish_coods = canvas.coords('DM')
         pickUpDiamond()
         if fish_coods[0]< 2000:
-            canvas.move('DM', 3, 0)
+            canvas.move('DM', 5, 0)
             window.after(20, update_position_right)
         else:
             update_position_left()
@@ -264,7 +258,7 @@ def createDiamond():
         pickUpDiamond()
         fish_coods = canvas.coords('DM')
         if fish_coods[0]> -500 :
-            canvas.move('DM', -4, 0)
+            canvas.move('DM', -5, 0)
             window.after(20, update_position_left)
         else:
             update_position_right()
@@ -278,13 +272,14 @@ def createCion():
     y = 200
     for i in range(1,10):
         COIN1= canvas.create_image(x,y, image = coin1, tags= 'COIN')
-        COIN1= canvas.create_image(x+200,y+400, image = coin2, tags= 'COIN')
+        COIN1= canvas.create_image(x+200,y+300, image = coin2, tags= 'COIN')
+        COIN1= canvas.create_image(x+200,y+450, image = coin2, tags= 'COIN')
         x+=40
     def update_position_right():
         fish_coods = canvas.coords('COIN')
         pickUpDiamond()
         if fish_coods[0]< 1500:
-            canvas.move('COIN', 5, 0)
+            canvas.move('COIN', 8, 0)
             window.after(20, update_position_right)
         else:
             update_position_left()
@@ -293,7 +288,7 @@ def createCion():
         pickUpDiamond()
         fish_coods = canvas.coords('COIN')
         if fish_coods[0]> -400 :
-            canvas.move('COIN', -5, 0)
+            canvas.move('COIN', -8, 0)
             window.after(20, update_position_left)
         else:
             update_position_right()
@@ -330,9 +325,9 @@ def move_buuble():
 
 #------------ENEMY LEVEL 2-------------------
 def anemyLevelTwo():
-    enemies1=canvas.create_image(100,100, image = enemy1, tags= 'ENEMY')
+    enemies1=canvas.create_image(100,80, image = enemy1, tags= 'ENEMY')
     enemies2=canvas.create_image(100,400, image = enemy1, tags= 'ENEMY')
-    enemies3=canvas.create_image(100,700, image = enemy1, tags= 'ENEMY')
+    enemies3=canvas.create_image(100,750, image = enemy1, tags= 'ENEMY')
 
     def update_position_right():
         
@@ -341,8 +336,8 @@ def anemyLevelTwo():
             canvas.itemconfigure(enemies1, image = enemy2)
             canvas.itemconfigure(enemies2, image = enemy2)
             canvas.itemconfigure(enemies3, image = enemy2)
-            canvas.move('ENEMY', 4, 0)
-            window.after(20, update_position_right)
+            canvas.move('ENEMY', 8, 0)
+            window.after(30, update_position_right)
         else:
             update_position_left()
 
@@ -353,18 +348,18 @@ def anemyLevelTwo():
             canvas.itemconfigure(enemies1, image = enemy1)
             canvas.itemconfigure(enemies2, image = enemy1)
             canvas.itemconfigure(enemies3, image = enemy1)
-            canvas.move('ENEMY', -4, 0)
-            window.after(20, update_position_left)
+            canvas.move('ENEMY', -8, 0)
+            window.after(30, update_position_left)
         else:
             update_position_right()
         
-    window.after(20, update_position_left)
+    window.after(30, update_position_left)
 
 #------------ENEMY LEVEL 3-------------------
 def anemyLevelThree():
-    enemies1=canvas.create_image(100,100, image = enemy1, tags= 'ENEMY')
+    enemies1=canvas.create_image(100,80, image = enemy1, tags= 'ENEMY')
     enemies2=canvas.create_image(100,400, image = enemy1, tags= 'ENEMY')
-    enemies3=canvas.create_image(100,700, image = enemy1, tags= 'ENEMY')
+    enemies3=canvas.create_image(100,750, image = enemy1, tags= 'ENEMY')
 
     def update_position_right():
         
@@ -373,7 +368,7 @@ def anemyLevelThree():
             canvas.itemconfigure(enemies1, image = enemy2)
             canvas.itemconfigure(enemies2, image = enemy2)
             canvas.itemconfigure(enemies3, image = enemy2)
-            canvas.move('ENEMY', 7, 0)
+            canvas.move('ENEMY', 10, 0)
             window.after(20, update_position_right)
         else:
             update_position_left()
@@ -385,7 +380,7 @@ def anemyLevelThree():
             canvas.itemconfigure(enemies1, image = enemy1)
             canvas.itemconfigure(enemies2, image = enemy1)
             canvas.itemconfigure(enemies3, image = enemy1)
-            canvas.move('ENEMY', -7, 0)
+            canvas.move('ENEMY', -10, 0)
             window.after(20, update_position_left)
         else:
             update_position_right()
@@ -426,23 +421,23 @@ def deleteCoin(plf):
     winsound.PlaySound("sounds/pick_coin.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     global getCoin
     canvas.delete(plf)
-    getCoin+=1
+    getCoin+=60
     canvas.itemconfigure(TotalCoin, text = ': ' + str(getCoin) )
+
 
 def deleteDiamnd(dm):
     winsound.PlaySound("sounds/pick_diamond.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     canvas.delete(dm)
     global numberOfDiamond
     numberOfDiamond+=1
-    if numberOfDiamond == 3 and life != 0:
+    if numberOfDiamond >= 3 and life != 0:
         gameWin()
     canvas.itemconfigure(NumberDiamond, text = ': ' + str(numberOfDiamond) )
-    
 def playerDied1(died):
     winsound.PlaySound("sounds/lose.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
     global life, life_actor
     life-=1
-    if life<=0:
+    if life <=0:
         gameOver()
     canvas.itemconfigure("LIFE", image = heard2 )
 
@@ -455,44 +450,35 @@ def playerDied2(died):
 
 #============================> GAME WIN<============================ 
 def gameWin():
+    canvas.delete('all')
     canvas.create_image(680,372, image=game_win)
-    canvas.create_text(1200, 143, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
-    canvas.create_text(1200, 218, text=totalDiamond, font=("serif", 34 ,'bold'), fill="black")
     canvas.create_image(615,565, image=btn_back, tags="back")
     canvas.create_image(780,565,image=btn_go, tags="go")
     winsound.PlaySound("sounds/winner.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 #---------------------------- GAME OVER FUNCTION ---------------------------
 def gameOver():
-    canvas.create_text(1130, 243, text=getCoin, font=("serif", 34 ,'bold'), fill="black")
-    canvas.create_text(1130, 343, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
+    global getCoin, totalDiamond
+    canvas.delete('all')
     canvas.create_image(680, 372, image=game_over, tags='lose')
     canvas.create_image(100,70, image = btn_back, tags= 'back')
-    
+    canvas.create_image(690, 550, image = actor_cry)
+    canvas.create_text(1130, 243, text='+' + str(getCoin), font=("serif", 34 ,'bold'), fill="skyblue")
+    canvas.create_text(1130, 343, text= totalDiamond, font=("serif", 34 ,'bold'), fill="skyblue")
 
-#------------ -------------GAME EXIT--------------------------------
+#------------ -------------GAME EXIT--kln ------------------------------
 def gameExit(event):
     window.destroy()
 
 #-----------------------GAME RESTART FUNCTION-----------------------
 def gameRestart(event):
     global player_x, player_y,totalScore, totalDiamond, getCoin
-    isStart = False
     player_x = 150
     player_y = 450
-    listOfDiamond = []
-    listOfCoin = []
-    listOfEnemy = []
-    listOfLife = []
-    totalScore = 0
     totalDiamond = 0
     getCoin = 0
-    canlive = 6
-    toConfig = 0
-    countCreateEnemy = 0
-    createEnemysSize = 0
-    isStart = True
     reStart(event)
+    life= 6
 
 #------------------------------PLAYER UP FUNCTION ---------------------------
 def movePlayerUp(event):
@@ -535,7 +521,6 @@ window.bind("<Down>", movePlayerDown)
 window.bind("<Left>", movePlayerleft)
 window.bind("<Right>", movePlayerRight)
 canvas.tag_bind("back","<Button-1>", gameShow)
-canvas.tag_bind("go","<Button-1>", levelTwo)
 canvas.tag_bind("exit","<Button-1>", gameExit)
 canvas.tag_bind("playgame","<Button-1>", levelGame)
 canvas.tag_bind("level1","<Button-1>", levelOne)
