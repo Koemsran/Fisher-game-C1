@@ -10,7 +10,7 @@ SCREEN_HEIGHT = 740
 
 # CREATE THE MAIN WINDOW
 window = tk.Tk()
-window.geometry(str(SCREEN_WIDTH)+"x"+str(SCREEN_HEIGHT))
+window.geometry(str(SCREEN_WIDTH) + "x" + str(SCREEN_HEIGHT))
 
 # THE TITTLE NAME OF GAME 
 window.title('Group-C1 - Game Fish')
@@ -30,9 +30,9 @@ bg_level = tk.PhotoImage(file= 'images/bg/bg_level.png')
 # IMAGE OF GAME LEVELS
 game_level = tk.PhotoImage(file ='images/menus/level.png')
 level_up = tk.PhotoImage(file= 'images/menus/level_up.png')
-level1= tk.PhotoImage(file='images/menus/level1.png')
-level2= tk.PhotoImage(file='images/menus/level2.png')
-level3= tk.PhotoImage(file='images/menus/level3.png')
+level1 = tk.PhotoImage(file='images/menus/level1.png')
+level2 = tk.PhotoImage(file='images/menus/level2.png')
+level3 = tk.PhotoImage(file='images/menus/level3.png')
 
 # IMAGE DISPLAY PLAYERS
 actor = tk.PhotoImage(file='images/player1.png')
@@ -69,7 +69,7 @@ btn_back = tk.PhotoImage(file='images/menus/back_menu.png')
 btn_go = tk.PhotoImage(file='images/menus/go_menu.png')
 
 # CREATE NAMES
-player_x =700
+player_x = 700
 player_y = 450
 listOfLife = []
 totalScore = 0
@@ -85,7 +85,7 @@ isStart = True
 def processGame():
     if numberOfDiamond == 3 and life != 0:
         gameWin()
-    if life<=0:
+    if life <= 0:
         gameOver()
     canvas.after(100,processGame)
 
@@ -235,12 +235,12 @@ def reStart(event):
 
 #-----------CREATE FUNCTION TO UPDATE THE OBJECT ENEMY DISPLAY ON BACKGROUND--------------
 def createEnemy():
-    enemies1= canvas.create_image(900,150, image = enemy1, tags ='FISH')
-    enemies2= canvas.create_image(900,400, image = enemy1, tags ='FISH')
-    enemies3= canvas.create_image(900,650, image = enemy1, tags ='FISH')
-    enemies4= canvas.create_image(1250,300, image = enemy6, tags ='FISH')
-    enemies5= canvas.create_image(1250,570, image = enemy6, tags ='FISH')
-    enemies6= canvas.create_image(1250,790, image = enemy6, tags ='FISH')
+    enemies1 = canvas.create_image(900,150, image = enemy1, tags ='FISH')
+    enemies2 = canvas.create_image(900,400, image = enemy1, tags ='FISH')
+    enemies3 = canvas.create_image(900,650, image = enemy1, tags ='FISH')
+    enemies4 = canvas.create_image(1250,300, image = enemy6, tags ='FISH')
+    enemies5 = canvas.create_image(1250,570, image = enemy6, tags ='FISH')
+    enemies6 = canvas.create_image(1250,790, image = enemy6, tags ='FISH')
    
 #----------------------------GO RIGHT FUNCTION-------------------------------------------------
 # FUNCTION TO UPDATE THE OBJECT POSITION
@@ -308,8 +308,8 @@ def createCion():
     x = 100
     y = 200
     for i in range(1,10):
-        COIN1= canvas.create_image(x,y, image = coin1, tags= 'COIN')
-        COIN1= canvas.create_image(x+200,y+400, image = coin2, tags= 'COIN')
+        COIN1 = canvas.create_image(x,y, image = coin1, tags= 'COIN')
+        COIN1 = canvas.create_image(x+200,y+400, image = coin2, tags= 'COIN')
         x+=25
     def update_position_right():
         fish_coods = canvas.coords('COIN')
@@ -360,9 +360,9 @@ def move_buuble():
 
 #------------ENEMY LEVEL 2-------------------
 def anemyLevelTwo():
-    enemies1=canvas.create_image(100,100, image = enemy1, tags= 'ENEMY')
-    enemies2=canvas.create_image(100,400, image = enemy1, tags= 'ENEMY')
-    enemies3=canvas.create_image(100,700, image = enemy1, tags= 'ENEMY')
+    enemies1 = canvas.create_image(100,100, image = enemy1, tags= 'ENEMY')
+    enemies2 = canvas.create_image(100,400, image = enemy1, tags= 'ENEMY')
+    enemies3 = canvas.create_image(100,700, image = enemy1, tags= 'ENEMY')
 
     def update_position_right():
         
@@ -426,7 +426,7 @@ def anemyLevelThree():
 # FUNCTION TO PICK UP THE OBJECT DIAMOND
 def pickUpDiamond():
     global player
-    coord= canvas.coords(player)
+    coord = canvas.coords(player)
     foods = canvas.find_withtag('DM')
     coins = canvas.find_withtag('COIN')
     fishes = canvas.find_withtag('FISH')
@@ -455,26 +455,26 @@ def pickUpDiamond():
 def deleteCoin(plf):
     global getCoin
     canvas.delete(plf)
-    getCoin+=1
+    getCoin += 1
     canvas.itemconfigure(TotalCoin, text = ': ' + str(getCoin) )
     winsound.PlaySound("sounds/pick_coin.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 def deleteDiamnd(dm):
     canvas.delete(dm)
     global numberOfDiamond
-    numberOfDiamond+=1
+    numberOfDiamond += 1
     canvas.itemconfigure(NumberDiamond, text = ': ' + str(numberOfDiamond) )
     winsound.PlaySound("sounds/pick_diamond.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 def playerDied1(died):
     global life, life_actor
-    life-=1
+    life -= 1
     print(life)
     # canvas.itemconfigure(life_actor, image = heard2)
 
 def playerDied2(died):
     global life, life_actor
-    life-=1
+    life -= 1
     print(life)
     # canvas.itemconfigure(life_actor, image = heard2)
 
@@ -494,8 +494,8 @@ def gameWin():
 def gameOver():
     canvas.delete('all')
     canvas.create_image(680, 372, image=game_over)
-    canvas.create_text(1200, 143, text=getCoin, font=("serif", 34 ,'bold'), fill="black")
-    canvas.create_text(1200, 218, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
+    canvas.create_text(1130, 243, text=getCoin, font=("serif", 34 ,'bold'), fill="black")
+    canvas.create_text(1130, 343, text=totalScore, font=("serif", 34 ,'bold'), fill="black")
     canvas.create_image(680,570,image=btn_exit, tags="exit")
     winsound.PlaySound("sounds/over.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
@@ -524,10 +524,10 @@ def gameRestart(event):
     isStart = True
     reStart(event)
 
-#---------------------------------PLAYER UP FUNCTION ------------------------------------------
+#---------------------------------PLAYER UP FUNCTION------------------------------------------
 def movePlayerUp(event):
     global player_y
-    if player_y>130:
+    if player_y > 130:
         player_y -= 20
         canvas.moveto(player, player_x-80, player_y-70)
     pickUpDiamond()
@@ -536,7 +536,7 @@ def movePlayerUp(event):
 #---------------------------PLAYER DOWN FUNCTION--------------------------------------------
 def movePlayerDown(event):
     global player_y
-    if player_y<650:
+    if player_y < 650:
         player_y += 20
         canvas.moveto(player, player_x-80, player_y-70)
     pickUpDiamond()
@@ -561,7 +561,7 @@ canvas.create_image(680,460,image=btn_restart, tags="restart")
 canvas.create_image(680,590,image=btn_exit, tags="exit")
 winsound.PlaySound("sounds/start.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
 
-# Start the simulation
+#---START THE SIMULATION----
 processGame()
 window.bind("<Up>", movePlayerUp)
 window.bind("<Down>", movePlayerDown)
