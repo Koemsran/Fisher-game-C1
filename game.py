@@ -458,13 +458,13 @@ def gameWin():
 
 #---------------------------- GAME OVER FUNCTION ---------------------------
 def gameOver():
-    global getCoin, totalDiamond
+    global getCoin, numberOfDiamond
     canvas.delete('all')
     canvas.create_image(680, 372, image=game_over, tags='lose')
     canvas.create_image(100,70, image = btn_back, tags= 'back')
     canvas.create_image(690, 550, image = actor_cry)
     canvas.create_text(1130, 243, text='+' + str(getCoin), font=("serif", 34 ,'bold'), fill="skyblue")
-    canvas.create_text(1130, 343, text= totalDiamond, font=("serif", 34 ,'bold'), fill="skyblue")
+    canvas.create_text(1130, 343, text= numberOfDiamond, font=("serif", 34 ,'bold'), fill="skyblue")
 
 #------------ -------------GAME EXIT--kln ------------------------------
 def gameExit(event):
